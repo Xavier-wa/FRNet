@@ -1,0 +1,1363 @@
+nohup: ignoring input
+03/26 09:08:24 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.7.16 (default, Jan 17 2023, 22:20:44) [GCC 11.2.0]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 1293314010
+    GPU 0,1: Tesla V100-PCIE-32GB
+    GPU 2,3: Tesla V100-SXM3-32GB
+    CUDA_HOME: /usr/local/cuda-11.8
+    NVCC: Cuda compilation tools, release 11.8, V11.8.89
+    GCC: gcc (Ubuntu 9.4.0-1ubuntu1~18.04) 9.4.0
+    PyTorch: 1.8.1+cu111
+    PyTorch compiling details: PyTorch built with:
+  - GCC 7.3
+  - C++ Version: 201402
+  - Intel(R) Math Kernel Library Version 2020.0.0 Product Build 20191122 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v1.7.0 (Git Hash 7aed236906b1f7a05c0917e5257a1af05e9ff683)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.1
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86
+  - CuDNN 8.0.5
+  - Magma 2.5.2
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.1, CUDNN_VERSION=8.0.5, CXX_COMPILER=/opt/rh/devtoolset-7/root/usr/bin/c++, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.8.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, 
+
+    TorchVision: 0.9.1+cu111
+    OpenCV: 4.9.0
+    MMEngine: 0.10.3
+
+Runtime environment:
+    cudnn_benchmark: False
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 1293314010
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+03/26 09:08:28 - mmengine - INFO - Config:
+auto_scale_lr = dict(base_batch_size=4, enable=False)
+backend_args = None
+class_names = [
+    'car',
+    'bicycle',
+    'motorcycle',
+    'truck',
+    'bus',
+    'person',
+    'bicyclist',
+    'motorcyclist',
+    'road',
+    'parking',
+    'sidewalk',
+    'other-ground',
+    'building',
+    'fence',
+    'vegetation',
+    'trunck',
+    'terrian',
+    'pole',
+    'traffic-sign',
+]
+custom_imports = dict(
+    allow_failed_imports=False,
+    imports=[
+        'frnet.datasets',
+        'frnet.datasets.transforms',
+        'frnet.models',
+    ])
+data_root = '/mnt/storage/dataset/semanticKitti/dataset'
+dataset_type = 'SemanticKittiDataset'
+default_hooks = dict(
+    checkpoint=dict(interval=-1, type='CheckpointHook'),
+    logger=dict(interval=50, type='LoggerHook'),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    timer=dict(type='IterTimerHook'),
+    visualization=dict(type='Det3DVisualizationHook'))
+default_scope = 'mmdet3d'
+env_cfg = dict(
+    cudnn_benchmark=False,
+    dist_cfg=dict(backend='nccl'),
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+input_modality = dict(use_camera=False, use_lidar=True)
+labels_map = dict({
+    0: 19,
+    1: 19,
+    10: 0,
+    11: 1,
+    13: 4,
+    15: 2,
+    16: 4,
+    18: 3,
+    20: 4,
+    252: 0,
+    253: 6,
+    254: 5,
+    255: 7,
+    256: 4,
+    257: 4,
+    258: 3,
+    259: 4,
+    30: 5,
+    31: 6,
+    32: 7,
+    40: 8,
+    44: 9,
+    48: 10,
+    49: 11,
+    50: 12,
+    51: 13,
+    52: 19,
+    60: 8,
+    70: 14,
+    71: 15,
+    72: 16,
+    80: 17,
+    81: 18,
+    99: 19
+})
+launcher = 'none'
+learning_map_inv = dict({
+    0: 0,
+    1: 10,
+    10: 44,
+    11: 48,
+    12: 49,
+    13: 50,
+    14: 51,
+    15: 70,
+    16: 71,
+    17: 72,
+    18: 80,
+    19: 81,
+    2: 11,
+    3: 15,
+    4: 18,
+    5: 20,
+    6: 30,
+    7: 31,
+    8: 32,
+    9: 40
+})
+load_from = './frnet-semantickitti_seg.pth'
+log_level = 'INFO'
+log_processor = dict(by_epoch=True, type='LogProcessor', window_size=50)
+lr = 0.01
+metainfo = dict(
+    classes=[
+        'car',
+        'bicycle',
+        'motorcycle',
+        'truck',
+        'bus',
+        'person',
+        'bicyclist',
+        'motorcyclist',
+        'road',
+        'parking',
+        'sidewalk',
+        'other-ground',
+        'building',
+        'fence',
+        'vegetation',
+        'trunck',
+        'terrian',
+        'pole',
+        'traffic-sign',
+    ],
+    learning_map_inv=dict({
+        0: 0,
+        1: 10,
+        10: 44,
+        11: 48,
+        12: 49,
+        13: 50,
+        14: 51,
+        15: 70,
+        16: 71,
+        17: 72,
+        18: 80,
+        19: 81,
+        2: 11,
+        3: 15,
+        4: 18,
+        5: 20,
+        6: 30,
+        7: 31,
+        8: 32,
+        9: 40
+    }),
+    max_label=259,
+    seg_label_mapping=dict({
+        0: 19,
+        1: 19,
+        10: 0,
+        11: 1,
+        13: 4,
+        15: 2,
+        16: 4,
+        18: 3,
+        20: 4,
+        252: 0,
+        253: 6,
+        254: 5,
+        255: 7,
+        256: 4,
+        257: 4,
+        258: 3,
+        259: 4,
+        30: 5,
+        31: 6,
+        32: 7,
+        40: 8,
+        44: 9,
+        48: 10,
+        49: 11,
+        50: 12,
+        51: 13,
+        52: 19,
+        60: 8,
+        70: 14,
+        71: 15,
+        72: 16,
+        80: 17,
+        81: 18,
+        99: 19
+    }))
+model = dict(
+    module=dict(
+        auxiliary_head=[
+            dict(
+                channels=128,
+                conv_seg_kernel_size=1,
+                dropout_ratio=0,
+                ignore_index=19,
+                loss_boundary=dict(loss_weight=1.0, type='BoundaryLoss'),
+                loss_ce=dict(
+                    class_weight=None,
+                    loss_weight=1.0,
+                    type='mmdet.CrossEntropyLoss',
+                    use_sigmoid=False),
+                loss_lovasz=dict(
+                    loss_weight=1.5, reduction='none', type='LovaszLoss'),
+                num_classes=20,
+                type='FrustumHead'),
+            dict(
+                channels=128,
+                conv_seg_kernel_size=1,
+                dropout_ratio=0,
+                ignore_index=19,
+                indices=2,
+                loss_boundary=dict(loss_weight=1.0, type='BoundaryLoss'),
+                loss_ce=dict(
+                    class_weight=None,
+                    loss_weight=1.0,
+                    type='mmdet.CrossEntropyLoss',
+                    use_sigmoid=False),
+                loss_lovasz=dict(
+                    loss_weight=1.5, reduction='none', type='LovaszLoss'),
+                num_classes=20,
+                type='FrustumHead'),
+            dict(
+                channels=128,
+                conv_seg_kernel_size=1,
+                dropout_ratio=0,
+                ignore_index=19,
+                indices=3,
+                loss_boundary=dict(loss_weight=1.0, type='BoundaryLoss'),
+                loss_ce=dict(
+                    class_weight=None,
+                    loss_weight=1.0,
+                    type='mmdet.CrossEntropyLoss',
+                    use_sigmoid=False),
+                loss_lovasz=dict(
+                    loss_weight=1.5, reduction='none', type='LovaszLoss'),
+                num_classes=20,
+                type='FrustumHead'),
+            dict(
+                channels=128,
+                conv_seg_kernel_size=1,
+                dropout_ratio=0,
+                ignore_index=19,
+                indices=4,
+                loss_boundary=dict(loss_weight=1.0, type='BoundaryLoss'),
+                loss_ce=dict(
+                    class_weight=None,
+                    loss_weight=1.0,
+                    type='mmdet.CrossEntropyLoss',
+                    use_sigmoid=False),
+                loss_lovasz=dict(
+                    loss_weight=1.5, reduction='none', type='LovaszLoss'),
+                num_classes=20,
+                type='FrustumHead'),
+        ],
+        backbone=dict(
+            act_cfg=dict(inplace=True, type='HSwish'),
+            depth=34,
+            dilations=(
+                1,
+                1,
+                1,
+                1,
+            ),
+            fuse_channels=(
+                256,
+                128,
+            ),
+            in_channels=16,
+            norm_cfg=dict(eps=0.001, momentum=0.01, type='naiveSyncBN2d'),
+            num_stages=4,
+            out_channels=(
+                128,
+                128,
+                128,
+                128,
+            ),
+            output_shape=(
+                64,
+                512,
+            ),
+            point_in_channels=384,
+            point_norm_cfg=dict(
+                eps=0.001, momentum=0.01, type='naiveSyncBN1d'),
+            stem_channels=128,
+            strides=(
+                1,
+                2,
+                2,
+                2,
+            ),
+            type='FRNetBackbone'),
+        data_preprocessor=dict(
+            H=64,
+            W=512,
+            fov_down=-25.0,
+            fov_up=3.0,
+            ignore_index=19,
+            type='FrustumRangePreprocessor'),
+        decode_head=dict(
+            channels=64,
+            conv_seg_kernel_size=1,
+            dropout_ratio=0,
+            ignore_index=19,
+            in_channels=128,
+            loss_ce=dict(
+                class_weight=None,
+                loss_weight=1.0,
+                type='mmdet.CrossEntropyLoss',
+                use_sigmoid=False),
+            middle_channels=(
+                128,
+                256,
+                128,
+                64,
+            ),
+            norm_cfg=dict(eps=0.001, momentum=0.01, type='naiveSyncBN1d'),
+            num_classes=20,
+            type='FRHead'),
+        type='FRNet',
+        voxel_encoder=dict(
+            feat_channels=(
+                64,
+                128,
+                256,
+                256,
+            ),
+            feat_compression=16,
+            in_channels=4,
+            norm_cfg=dict(eps=0.001, momentum=0.01, type='naiveSyncBN1d'),
+            type='FrustumFeatureEncoder',
+            with_cluster_center=True,
+            with_distance=True,
+            with_pre_norm=True)),
+    type='Seg3DTTAModel')
+optim_wrapper = dict(
+    optimizer=dict(
+        betas=(
+            0.9,
+            0.999,
+        ),
+        eps=1e-06,
+        lr=0.01,
+        type='AdamW',
+        weight_decay=0.01),
+    type='OptimWrapper')
+param_scheduler = [
+    dict(
+        by_epoch=True,
+        convert_to_iter_based=True,
+        div_factor=25.0,
+        eta_max=0.01,
+        final_div_factor=100.0,
+        pct_start=0.2,
+        total_steps=50,
+        type='OneCycleLR'),
+]
+pre_transform = [
+    dict(
+        backend_args=None,
+        coord_type='LIDAR',
+        load_dim=4,
+        type='LoadPointsFromFile',
+        use_dim=4),
+    dict(
+        backend_args=None,
+        dataset_type='semantickitti',
+        seg_3d_dtype='np.int32',
+        seg_offset=65536,
+        type='LoadAnnotations3D',
+        with_bbox_3d=False,
+        with_label_3d=False,
+        with_seg_3d=True),
+    dict(type='PointSegClassMapping'),
+    dict(num_points=0.9, type='PointSample'),
+    dict(
+        flip_ratio_bev_horizontal=0.5,
+        flip_ratio_bev_vertical=0.5,
+        sync_2d=False,
+        type='RandomFlip3D'),
+    dict(
+        rot_range=[
+            -3.1415926,
+            3.1415926,
+        ],
+        scale_ratio_range=[
+            0.95,
+            1.05,
+        ],
+        translation_std=[
+            0.1,
+            0.1,
+            0.1,
+        ],
+        type='GlobalRotScaleTrans'),
+]
+resume = False
+test_cfg = dict()
+test_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file='semantickitti_infos_test.pkl',
+        backend_args=None,
+        data_root='/mnt/storage/dataset/semanticKitti/dataset',
+        ignore_index=19,
+        metainfo=dict(
+            classes=[
+                'car',
+                'bicycle',
+                'motorcycle',
+                'truck',
+                'bus',
+                'person',
+                'bicyclist',
+                'motorcyclist',
+                'road',
+                'parking',
+                'sidewalk',
+                'other-ground',
+                'building',
+                'fence',
+                'vegetation',
+                'trunck',
+                'terrian',
+                'pole',
+                'traffic-sign',
+            ],
+            learning_map_inv=dict({
+                0: 0,
+                1: 10,
+                10: 44,
+                11: 48,
+                12: 49,
+                13: 50,
+                14: 51,
+                15: 70,
+                16: 71,
+                17: 72,
+                18: 80,
+                19: 81,
+                2: 11,
+                3: 15,
+                4: 18,
+                5: 20,
+                6: 30,
+                7: 31,
+                8: 32,
+                9: 40
+            }),
+            max_label=259,
+            seg_label_mapping=dict({
+                0: 19,
+                1: 19,
+                10: 0,
+                11: 1,
+                13: 4,
+                15: 2,
+                16: 4,
+                18: 3,
+                20: 4,
+                252: 0,
+                253: 6,
+                254: 5,
+                255: 7,
+                256: 4,
+                257: 4,
+                258: 3,
+                259: 4,
+                30: 5,
+                31: 6,
+                32: 7,
+                40: 8,
+                44: 9,
+                48: 10,
+                49: 11,
+                50: 12,
+                51: 13,
+                52: 19,
+                60: 8,
+                70: 14,
+                71: 15,
+                72: 16,
+                80: 17,
+                81: 18,
+                99: 19
+            })),
+        modality=dict(use_camera=False, use_lidar=True),
+        pipeline=[
+            dict(
+                backend_args=None,
+                coord_type='LIDAR',
+                load_dim=4,
+                type='LoadPointsFromFile',
+                use_dim=4),
+            dict(
+                H=64,
+                W=2048,
+                fov_down=-25.0,
+                fov_up=3.0,
+                ignore_index=19,
+                type='RangeInterpolation'),
+            dict(
+                transforms=[
+                    [
+                        dict(
+                            flip_ratio_bev_horizontal=0.0,
+                            flip_ratio_bev_vertical=0.0,
+                            sync_2d=False,
+                            type='RandomFlip3D'),
+                        dict(
+                            flip_ratio_bev_horizontal=0.0,
+                            flip_ratio_bev_vertical=1.0,
+                            sync_2d=False,
+                            type='RandomFlip3D'),
+                        dict(
+                            flip_ratio_bev_horizontal=1.0,
+                            flip_ratio_bev_vertical=0.0,
+                            sync_2d=False,
+                            type='RandomFlip3D'),
+                        dict(
+                            flip_ratio_bev_horizontal=1.0,
+                            flip_ratio_bev_vertical=1.0,
+                            sync_2d=False,
+                            type='RandomFlip3D'),
+                    ],
+                    [
+                        dict(
+                            rot_range=[
+                                -3.1415926,
+                                3.1415926,
+                            ],
+                            scale_ratio_range=[
+                                0.95,
+                                1.05,
+                            ],
+                            translation_std=[
+                                0.1,
+                                0.1,
+                                0.1,
+                            ],
+                            type='GlobalRotScaleTrans'),
+                    ],
+                    [
+                        dict(
+                            keys=[
+                                'points',
+                            ],
+                            meta_keys=[
+                                'num_points',
+                            ],
+                            type='Pack3DDetInputs'),
+                    ],
+                ],
+                type='TestTimeAug'),
+        ],
+        test_mode=True,
+        type='SemanticKittiDataset'),
+    drop_last=False,
+    num_workers=1,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(
+    ann_file='semantickitti_infos_test.pkl',
+    conf='',
+    format_only=None,
+    result_start_index=0,
+    submission_prefix=None,
+    type='SemantickInferMertric')
+test_pipeline = [
+    dict(
+        backend_args=None,
+        coord_type='LIDAR',
+        load_dim=4,
+        type='LoadPointsFromFile',
+        use_dim=4),
+    dict(type='PointSegClassMapping'),
+    dict(
+        H=64,
+        W=2048,
+        fov_down=-25.0,
+        fov_up=3.0,
+        ignore_index=19,
+        type='RangeInterpolation'),
+    dict(
+        keys=[
+            'points',
+        ], meta_keys=[
+            'num_points',
+        ], type='Pack3DDetInputs'),
+]
+train_cfg = dict(by_epoch=True, max_epochs=50, val_interval=1)
+train_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file='semantickitti_infos_train.pkl',
+        backend_args=None,
+        data_root='/mnt/storage/dataset/semanticKitti/dataset',
+        ignore_index=19,
+        metainfo=dict(
+            classes=[
+                'car',
+                'bicycle',
+                'motorcycle',
+                'truck',
+                'bus',
+                'person',
+                'bicyclist',
+                'motorcyclist',
+                'road',
+                'parking',
+                'sidewalk',
+                'other-ground',
+                'building',
+                'fence',
+                'vegetation',
+                'trunck',
+                'terrian',
+                'pole',
+                'traffic-sign',
+            ],
+            learning_map_inv=dict({
+                0: 0,
+                1: 10,
+                10: 44,
+                11: 48,
+                12: 49,
+                13: 50,
+                14: 51,
+                15: 70,
+                16: 71,
+                17: 72,
+                18: 80,
+                19: 81,
+                2: 11,
+                3: 15,
+                4: 18,
+                5: 20,
+                6: 30,
+                7: 31,
+                8: 32,
+                9: 40
+            }),
+            max_label=259,
+            seg_label_mapping=dict({
+                0: 19,
+                1: 19,
+                10: 0,
+                11: 1,
+                13: 4,
+                15: 2,
+                16: 4,
+                18: 3,
+                20: 4,
+                252: 0,
+                253: 6,
+                254: 5,
+                255: 7,
+                256: 4,
+                257: 4,
+                258: 3,
+                259: 4,
+                30: 5,
+                31: 6,
+                32: 7,
+                40: 8,
+                44: 9,
+                48: 10,
+                49: 11,
+                50: 12,
+                51: 13,
+                52: 19,
+                60: 8,
+                70: 14,
+                71: 15,
+                72: 16,
+                80: 17,
+                81: 18,
+                99: 19
+            })),
+        modality=dict(use_camera=False, use_lidar=True),
+        pipeline=[
+            dict(
+                backend_args=None,
+                coord_type='LIDAR',
+                load_dim=4,
+                type='LoadPointsFromFile',
+                use_dim=4),
+            dict(
+                backend_args=None,
+                dataset_type='semantickitti',
+                seg_3d_dtype='np.int32',
+                seg_offset=65536,
+                type='LoadAnnotations3D',
+                with_bbox_3d=False,
+                with_label_3d=False,
+                with_seg_3d=True),
+            dict(type='PointSegClassMapping'),
+            dict(num_points=0.9, type='PointSample'),
+            dict(
+                flip_ratio_bev_horizontal=0.5,
+                flip_ratio_bev_vertical=0.5,
+                sync_2d=False,
+                type='RandomFlip3D'),
+            dict(
+                rot_range=[
+                    -3.1415926,
+                    3.1415926,
+                ],
+                scale_ratio_range=[
+                    0.95,
+                    1.05,
+                ],
+                translation_std=[
+                    0.1,
+                    0.1,
+                    0.1,
+                ],
+                type='GlobalRotScaleTrans'),
+            dict(
+                H=64,
+                W=512,
+                fov_down=-25.0,
+                fov_up=3.0,
+                num_areas=[
+                    3,
+                    4,
+                    5,
+                    6,
+                ],
+                pre_transform=[
+                    dict(
+                        backend_args=None,
+                        coord_type='LIDAR',
+                        load_dim=4,
+                        type='LoadPointsFromFile',
+                        use_dim=4),
+                    dict(
+                        backend_args=None,
+                        dataset_type='semantickitti',
+                        seg_3d_dtype='np.int32',
+                        seg_offset=65536,
+                        type='LoadAnnotations3D',
+                        with_bbox_3d=False,
+                        with_label_3d=False,
+                        with_seg_3d=True),
+                    dict(type='PointSegClassMapping'),
+                    dict(num_points=0.9, type='PointSample'),
+                    dict(
+                        flip_ratio_bev_horizontal=0.5,
+                        flip_ratio_bev_vertical=0.5,
+                        sync_2d=False,
+                        type='RandomFlip3D'),
+                    dict(
+                        rot_range=[
+                            -3.1415926,
+                            3.1415926,
+                        ],
+                        scale_ratio_range=[
+                            0.95,
+                            1.05,
+                        ],
+                        translation_std=[
+                            0.1,
+                            0.1,
+                            0.1,
+                        ],
+                        type='GlobalRotScaleTrans'),
+                ],
+                prob=1.0,
+                type='FrustumMix'),
+            dict(
+                instance_classes=[
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    11,
+                    15,
+                    17,
+                    18,
+                ],
+                pre_transform=[
+                    dict(
+                        backend_args=None,
+                        coord_type='LIDAR',
+                        load_dim=4,
+                        type='LoadPointsFromFile',
+                        use_dim=4),
+                    dict(
+                        backend_args=None,
+                        dataset_type='semantickitti',
+                        seg_3d_dtype='np.int32',
+                        seg_offset=65536,
+                        type='LoadAnnotations3D',
+                        with_bbox_3d=False,
+                        with_label_3d=False,
+                        with_seg_3d=True),
+                    dict(type='PointSegClassMapping'),
+                    dict(num_points=0.9, type='PointSample'),
+                    dict(
+                        flip_ratio_bev_horizontal=0.5,
+                        flip_ratio_bev_vertical=0.5,
+                        sync_2d=False,
+                        type='RandomFlip3D'),
+                    dict(
+                        rot_range=[
+                            -3.1415926,
+                            3.1415926,
+                        ],
+                        scale_ratio_range=[
+                            0.95,
+                            1.05,
+                        ],
+                        translation_std=[
+                            0.1,
+                            0.1,
+                            0.1,
+                        ],
+                        type='GlobalRotScaleTrans'),
+                ],
+                prob=1.0,
+                type='InstanceCopy'),
+            dict(
+                H=64,
+                W=2048,
+                fov_down=-25.0,
+                fov_up=3.0,
+                ignore_index=19,
+                type='RangeInterpolation'),
+            dict(
+                keys=[
+                    'points',
+                    'pts_semantic_mask',
+                ], type='Pack3DDetInputs'),
+        ],
+        type='SemanticKittiDataset'),
+    num_workers=4,
+    persistent_workers=True,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_pipeline = [
+    dict(
+        backend_args=None,
+        coord_type='LIDAR',
+        load_dim=4,
+        type='LoadPointsFromFile',
+        use_dim=4),
+    dict(
+        backend_args=None,
+        dataset_type='semantickitti',
+        seg_3d_dtype='np.int32',
+        seg_offset=65536,
+        type='LoadAnnotations3D',
+        with_bbox_3d=False,
+        with_label_3d=False,
+        with_seg_3d=True),
+    dict(type='PointSegClassMapping'),
+    dict(num_points=0.9, type='PointSample'),
+    dict(
+        flip_ratio_bev_horizontal=0.5,
+        flip_ratio_bev_vertical=0.5,
+        sync_2d=False,
+        type='RandomFlip3D'),
+    dict(
+        rot_range=[
+            -3.1415926,
+            3.1415926,
+        ],
+        scale_ratio_range=[
+            0.95,
+            1.05,
+        ],
+        translation_std=[
+            0.1,
+            0.1,
+            0.1,
+        ],
+        type='GlobalRotScaleTrans'),
+    dict(
+        H=64,
+        W=512,
+        fov_down=-25.0,
+        fov_up=3.0,
+        num_areas=[
+            3,
+            4,
+            5,
+            6,
+        ],
+        pre_transform=[
+            dict(
+                backend_args=None,
+                coord_type='LIDAR',
+                load_dim=4,
+                type='LoadPointsFromFile',
+                use_dim=4),
+            dict(
+                backend_args=None,
+                dataset_type='semantickitti',
+                seg_3d_dtype='np.int32',
+                seg_offset=65536,
+                type='LoadAnnotations3D',
+                with_bbox_3d=False,
+                with_label_3d=False,
+                with_seg_3d=True),
+            dict(type='PointSegClassMapping'),
+            dict(num_points=0.9, type='PointSample'),
+            dict(
+                flip_ratio_bev_horizontal=0.5,
+                flip_ratio_bev_vertical=0.5,
+                sync_2d=False,
+                type='RandomFlip3D'),
+            dict(
+                rot_range=[
+                    -3.1415926,
+                    3.1415926,
+                ],
+                scale_ratio_range=[
+                    0.95,
+                    1.05,
+                ],
+                translation_std=[
+                    0.1,
+                    0.1,
+                    0.1,
+                ],
+                type='GlobalRotScaleTrans'),
+        ],
+        prob=1.0,
+        type='FrustumMix'),
+    dict(
+        instance_classes=[
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            11,
+            15,
+            17,
+            18,
+        ],
+        pre_transform=[
+            dict(
+                backend_args=None,
+                coord_type='LIDAR',
+                load_dim=4,
+                type='LoadPointsFromFile',
+                use_dim=4),
+            dict(
+                backend_args=None,
+                dataset_type='semantickitti',
+                seg_3d_dtype='np.int32',
+                seg_offset=65536,
+                type='LoadAnnotations3D',
+                with_bbox_3d=False,
+                with_label_3d=False,
+                with_seg_3d=True),
+            dict(type='PointSegClassMapping'),
+            dict(num_points=0.9, type='PointSample'),
+            dict(
+                flip_ratio_bev_horizontal=0.5,
+                flip_ratio_bev_vertical=0.5,
+                sync_2d=False,
+                type='RandomFlip3D'),
+            dict(
+                rot_range=[
+                    -3.1415926,
+                    3.1415926,
+                ],
+                scale_ratio_range=[
+                    0.95,
+                    1.05,
+                ],
+                translation_std=[
+                    0.1,
+                    0.1,
+                    0.1,
+                ],
+                type='GlobalRotScaleTrans'),
+        ],
+        prob=1.0,
+        type='InstanceCopy'),
+    dict(
+        H=64,
+        W=2048,
+        fov_down=-25.0,
+        fov_up=3.0,
+        ignore_index=19,
+        type='RangeInterpolation'),
+    dict(keys=[
+        'points',
+        'pts_semantic_mask',
+    ], type='Pack3DDetInputs'),
+]
+tta_model = dict(type='Seg3DTTAModel')
+tta_pipeline = [
+    dict(
+        backend_args=None,
+        coord_type='LIDAR',
+        load_dim=4,
+        type='LoadPointsFromFile',
+        use_dim=4),
+    dict(
+        H=64,
+        W=2048,
+        fov_down=-25.0,
+        fov_up=3.0,
+        ignore_index=19,
+        type='RangeInterpolation'),
+    dict(
+        transforms=[
+            [
+                dict(
+                    flip_ratio_bev_horizontal=0.0,
+                    flip_ratio_bev_vertical=0.0,
+                    sync_2d=False,
+                    type='RandomFlip3D'),
+                dict(
+                    flip_ratio_bev_horizontal=0.0,
+                    flip_ratio_bev_vertical=1.0,
+                    sync_2d=False,
+                    type='RandomFlip3D'),
+                dict(
+                    flip_ratio_bev_horizontal=1.0,
+                    flip_ratio_bev_vertical=0.0,
+                    sync_2d=False,
+                    type='RandomFlip3D'),
+                dict(
+                    flip_ratio_bev_horizontal=1.0,
+                    flip_ratio_bev_vertical=1.0,
+                    sync_2d=False,
+                    type='RandomFlip3D'),
+            ],
+            [
+                dict(
+                    rot_range=[
+                        -3.1415926,
+                        3.1415926,
+                    ],
+                    scale_ratio_range=[
+                        0.95,
+                        1.05,
+                    ],
+                    translation_std=[
+                        0.1,
+                        0.1,
+                        0.1,
+                    ],
+                    type='GlobalRotScaleTrans'),
+            ],
+            [
+                dict(
+                    keys=[
+                        'points',
+                    ],
+                    meta_keys=[
+                        'num_points',
+                    ],
+                    type='Pack3DDetInputs'),
+            ],
+        ],
+        type='TestTimeAug'),
+]
+val_cfg = dict()
+val_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file='semantickitti_infos_test.pkl',
+        backend_args=None,
+        data_root='/mnt/storage/dataset/semanticKitti/dataset',
+        ignore_index=19,
+        metainfo=dict(
+            classes=[
+                'car',
+                'bicycle',
+                'motorcycle',
+                'truck',
+                'bus',
+                'person',
+                'bicyclist',
+                'motorcyclist',
+                'road',
+                'parking',
+                'sidewalk',
+                'other-ground',
+                'building',
+                'fence',
+                'vegetation',
+                'trunck',
+                'terrian',
+                'pole',
+                'traffic-sign',
+            ],
+            learning_map_inv=dict({
+                0: 0,
+                1: 10,
+                10: 44,
+                11: 48,
+                12: 49,
+                13: 50,
+                14: 51,
+                15: 70,
+                16: 71,
+                17: 72,
+                18: 80,
+                19: 81,
+                2: 11,
+                3: 15,
+                4: 18,
+                5: 20,
+                6: 30,
+                7: 31,
+                8: 32,
+                9: 40
+            }),
+            max_label=259,
+            seg_label_mapping=dict({
+                0: 19,
+                1: 19,
+                10: 0,
+                11: 1,
+                13: 4,
+                15: 2,
+                16: 4,
+                18: 3,
+                20: 4,
+                252: 0,
+                253: 6,
+                254: 5,
+                255: 7,
+                256: 4,
+                257: 4,
+                258: 3,
+                259: 4,
+                30: 5,
+                31: 6,
+                32: 7,
+                40: 8,
+                44: 9,
+                48: 10,
+                49: 11,
+                50: 12,
+                51: 13,
+                52: 19,
+                60: 8,
+                70: 14,
+                71: 15,
+                72: 16,
+                80: 17,
+                81: 18,
+                99: 19
+            })),
+        modality=dict(use_camera=False, use_lidar=True),
+        pipeline=[
+            dict(
+                backend_args=None,
+                coord_type='LIDAR',
+                load_dim=4,
+                type='LoadPointsFromFile',
+                use_dim=4),
+            dict(type='PointSegClassMapping'),
+            dict(
+                H=64,
+                W=2048,
+                fov_down=-25.0,
+                fov_up=3.0,
+                ignore_index=19,
+                type='RangeInterpolation'),
+            dict(
+                keys=[
+                    'points',
+                ],
+                meta_keys=[
+                    'num_points',
+                ],
+                type='Pack3DDetInputs'),
+        ],
+        test_mode=True,
+        type='SemanticKittiDataset'),
+    drop_last=False,
+    num_workers=1,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(type='SegMetric')
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    name='visualizer',
+    type='Det3DLocalVisualizer',
+    vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+work_dir = './work_dirs/frnet-semantickitti_seg'
+
+03/26 09:08:42 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+03/26 09:08:42 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) Det3DVisualizationHook             
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) Det3DVisualizationHook             
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+03/26 09:08:46 - mmengine - WARNING - The prefix is not set in metric class SemantickInferMertric.
+Loads checkpoint by local backend from path: ./frnet-semantickitti_seg.pth
+03/26 09:08:51 - mmengine - INFO - Load checkpoint from ./frnet-semantickitti_seg.pth
+finsh the 11/predictions/000000.label
+finsh the 11/predictions/000001.label
+finsh the 11/predictions/000002.label
+finsh the 11/predictions/000003.label
+finsh the 11/predictions/000004.label
+finsh the 11/predictions/000005.label
+finsh the 11/predictions/000006.label
+finsh the 11/predictions/000007.label
+finsh the 11/predictions/000008.label
+finsh the 11/predictions/000009.label
+finsh the 11/predictions/000010.label
+finsh the 11/predictions/000011.label
+finsh the 11/predictions/000012.label
+finsh the 11/predictions/000013.label
+finsh the 11/predictions/000014.label
+finsh the 11/predictions/000015.label
+finsh the 11/predictions/000016.label
+finsh the 11/predictions/000017.label
+finsh the 11/predictions/000018.label
+finsh the 11/predictions/000019.label
+finsh the 11/predictions/000020.label
+finsh the 11/predictions/000021.label
+finsh the 11/predictions/000022.label
+finsh the 11/predictions/000023.label
+finsh the 11/predictions/000024.label
+finsh the 11/predictions/000025.label
+finsh the 11/predictions/000026.label
+finsh the 11/predictions/000027.label
+finsh the 11/predictions/000028.label
+finsh the 11/predictions/000029.label

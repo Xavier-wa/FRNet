@@ -3,7 +3,7 @@
 # i.e. we consider the unlabeled class as the last one, which is different
 # from the original implementation of some methods e.g. Cylinder3D.
 dataset_type = 'SemanticKittiDataset'
-data_root = 'data/semantickitti/'
+data_root = '/mnt/storage/dataset/semanticKitti/dataset'
 class_names = [
     'car', 'bicycle', 'motorcycle', 'truck', 'bus', 'person', 'bicyclist',
     'motorcyclist', 'road', 'parking', 'sidewalk', 'other-ground', 'building',
@@ -45,8 +45,31 @@ labels_map = {
     258: 3,  # "moving-truck" to "truck" --------------------mapped
     259: 4  # "moving-other"-vehicle to "other-vehicle"-----mapped
 }
+
+learning_map_inv={ # inverse of previous map
+  0: 0 ,     # "unlabeled", and others ignored
+  1: 10,     # "car"
+  2: 11,     # "bicycle"
+  3: 15,     # "motorcycle"
+  4: 18,     # "truck"
+  5: 20,     # "other-vehicle"
+  6: 30,     # "person"
+  7: 31,     # "bicyclist"
+  8: 32,     # "motorcyclist"
+  9: 40,     # "road"
+  10: 44,    # "parking"
+  11: 48,    # "sidewalk"
+  12: 49,    # "other-ground"
+  13: 50,    # "building"
+  14: 51,    # "fence"
+  15: 70,    # "vegetation"
+  16: 71,    # "trunk"
+  17: 72,    # "terrain"
+  18: 80,    # "pole"
+  19: 81,    # "traffic-sign"
+}
 metainfo = dict(
-    classes=class_names, seg_label_mapping=labels_map, max_label=259)
+    classes=class_names, seg_label_mapping=labels_map, max_label=259,learning_map_inv=learning_map_inv)
 input_modality = dict(use_lidar=True, use_camera=False)
 
 # Example to use different file client
@@ -152,15 +175,15 @@ test_pipeline = [
         load_dim=4,
         use_dim=4,
         backend_args=backend_args),
-    dict(
-        type='LoadAnnotations3D',
-        with_bbox_3d=False,
-        with_label_3d=False,
-        with_seg_3d=True,
-        seg_3d_dtype='np.int32',
-        seg_offset=2**16,
-        dataset_type='semantickitti',
-        backend_args=backend_args),
+    # dict(
+    #     type='LoadAnnotations3D',
+    #     with_bbox_3d=False,
+    #     with_label_3d=False,
+    #     with_seg_3d=True,
+    #     seg_3d_dtype='np.int32',
+    #     seg_offset=2**16,
+    #     dataset_type='semantickitti',
+    #     backend_args=backend_args),
     dict(type='PointSegClassMapping'),
     dict(
         type='RangeInterpolation',
@@ -235,21 +258,20 @@ tta_pipeline = [
 ]
 
 train_dataloader = dict(
-    batch_size=1,
-    num_workers=4,
+    batch_size=4,
+    num_workers=12,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        ann_file='semantickitti_infos_train.pkl',
+        ann_file='semantickitti_infos_trainval.pkl',
         pipeline=train_pipeline,
         metainfo=metainfo,
         modality=input_modality,
         ignore_index=19,
         backend_args=backend_args))
-val_dataloader = dict(
-    batch_size=1,
+val_dataloader = dict(    batch_size=1,
     num_workers=1,
     persistent_workers=True,
     drop_last=False,
@@ -263,11 +285,30 @@ val_dataloader = dict(
         modality=input_modality,
         ignore_index=19,
         test_mode=True,
-        backend_args=backend_args))
+        backend_args=backend_args,
+        ),)
 test_dataloader = val_dataloader
 
 val_evaluator = dict(type='SegMetric')
+
+# test_evaluator = dict(
+#     type='SemantickInferMertric',
+#     submission_prefix= None,
+#     ann_file='semantickitti_infos_test.pkl',
+#     format_only=None,
+#     conf='',
+#     result_start_index=0
+# )
 test_evaluator = val_evaluator
+'''Xavier Use'''
+# test_evaluator = dict(
+#     type='SegMetric',
+#     ann_file=data_root + 'semantickitti_infos_test.pkl',
+#     metric='bbox',
+#     format_only=True,
+#     submission_prefix='data_root/seg-kitti_results')
+'''Xavier Use'''
+
 
 vis_backends = [dict(type='LocalVisBackend')]
 visualizer = dict(

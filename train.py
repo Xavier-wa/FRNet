@@ -9,7 +9,6 @@ from mmengine.logging import print_log
 from mmengine.registry import RUNNERS
 from mmengine.runner import Runner
 
-
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a 3D model')
     parser.add_argument('config', help='train config file path')
