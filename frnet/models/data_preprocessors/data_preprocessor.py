@@ -118,15 +118,15 @@ class FrustumRangePreprocessor(BaseDataPreprocessor):
                 res_voxel_coors, inverse_map = torch.unique(
                     res_coors, return_inverse=True, dim=0)
                 voxel_semantic_mask = torch_scatter.scatter_mean(
-                    F.one_hot(pts_semantic_mask).float(), inverse_map, dim=0)
-                voxel_semantic_mask = torch.argmax(voxel_semantic_mask, dim=-1)
+                    F.one_hot(pts_semantic_mask).float(), inverse_map, dim=0)#聚合每个frustum中的点并按类别统计个数
+                voxel_semantic_mask = torch.argmax(voxel_semantic_mask, dim=-1)#选出每个frustum中点最多的类作为该frustum的semantick
                 seg_label[res_voxel_coors[:, 1],
                           res_voxel_coors[:, 2]] = voxel_semantic_mask
-                data_samples[i].gt_pts_seg.semantic_seg = seg_label
-
-        voxels = torch.cat(voxels, dim=0)
-        coors = torch.cat(coors, dim=0)
-        voxel_dict['voxels'] = voxels
+                data_samples[i].gt_pts_seg.semantic_seg = seg_label  #projected labels
+        #因为coors 带了 batch_index 所以可以直接按顺序cat起来
+        voxels = torch.cat(voxels, dim=0)#每个点的xyz range
+        coors = torch.cat(coors, dim=0) #保留了每个点的projected 坐标
+        voxel_dict['voxels'] = voxels 
         voxel_dict['coors'] = coors
 
         return voxel_dict

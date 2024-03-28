@@ -175,15 +175,15 @@ test_pipeline = [
         load_dim=4,
         use_dim=4,
         backend_args=backend_args),
-    # dict(
-    #     type='LoadAnnotations3D',
-    #     with_bbox_3d=False,
-    #     with_label_3d=False,
-    #     with_seg_3d=True,
-    #     seg_3d_dtype='np.int32',
-    #     seg_offset=2**16,
-    #     dataset_type='semantickitti',
-    #     backend_args=backend_args),
+    dict(
+        type='LoadAnnotations3D',
+        with_bbox_3d=False,
+        with_label_3d=False,
+        with_seg_3d=True,
+        seg_3d_dtype='np.int32',
+        seg_offset=2**16,
+        dataset_type='semantickitti',
+        backend_args=backend_args),
     dict(type='PointSegClassMapping'),
     dict(
         type='RangeInterpolation',
@@ -259,7 +259,7 @@ tta_pipeline = [
 
 train_dataloader = dict(
     batch_size=4,
-    num_workers=12,
+    num_workers=1,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
     dataset=dict(

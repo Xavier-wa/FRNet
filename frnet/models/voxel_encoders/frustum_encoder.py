@@ -78,39 +78,42 @@ class FrustumFeatureEncoder(nn.Module):
         features = voxel_dict['voxels']
         coors = voxel_dict['coors']
         features_ls = [features]
-
+        #去重 with batch_index 所以不怕样本之间干扰
         voxel_coors, inverse_map = torch.unique(
             coors, return_inverse=True, dim=0)
 
-        if self._with_distance:
+        if self._with_distance: #计算每个点的欧式距离
             points_dist = torch.norm(features[:, :3], 2, 1, keepdim=True)
             features_ls.append(points_dist)
-
+        #featureslist  include pointdis pointxyzi
         # Find distance of x, y, and z from frustum center
-        if self._with_cluster_center:
+        if self._with_cluster_center: #cluester the frustum area point feature(in the same frustum with the same index in inverse_map)
             voxel_mean = torch_scatter.scatter_mean(
-                features, inverse_map, dim=0)
-            points_mean = voxel_mean[inverse_map]
-            f_cluster = features[:, :3] - points_mean[:, :3]
+                features, inverse_map, dim=0) #project_feature (reply on mean)
+            points_mean = voxel_mean[inverse_map]#保留点的feature
+            f_cluster = features[:, :3] - points_mean[:, :3] #cal the distances  算出每个frustum的均值feature_mean 然后 将每个点的feature减去这个feature_mean
             features_ls.append(f_cluster)
 
-        # Combine together feature decorations
+        # Combine together feature decorations  feature include (x),(y),(z),(i),(p_distance),(x,y,z-frustum_mean(i)x,y,z)  8channel
         features = torch.cat(features_ls, dim=-1)
         if self.pre_norm is not None:
             features = self.pre_norm(features)
 
-        point_feats = []
+        point_feats = [] #feature extracet
         for ffe in self.ffe_layers:
             features = ffe(features)
             point_feats.append(features)
+        
+        #frustum area max 256 features
         voxel_feats = torch_scatter.scatter_max(
             features, inverse_map, dim=0)[0]
 
+        #feature reduce dim
         if self.compression_layers is not None:
             voxel_feats = self.compression_layers(voxel_feats)
 
-        voxel_dict['voxel_feats'] = voxel_feats
-        voxel_dict['voxel_coors'] = voxel_coors
-        voxel_dict['point_feats'] = point_feats
+        voxel_dict['voxel_feats'] = voxel_feats # frustum-features   (frustums num point x 16)
+        voxel_dict['voxel_coors'] = voxel_coors # frustum-xyz
+        voxel_dict['point_feats'] = point_feats # point-features (64,128,256,256)
 
         return voxel_dict

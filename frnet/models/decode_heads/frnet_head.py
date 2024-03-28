@@ -43,8 +43,8 @@ class FRHead(Base3DDecodeHead):
 
     def forward(self, voxel_dict: dict) -> dict:
         point_feats_backbone = voxel_dict['point_feats_backbone'][0]
-        point_feats = voxel_dict['point_feats'][:-1]
-        voxel_feats = voxel_dict['voxel_feats'][0]
+        point_feats = voxel_dict['point_feats'][:-1] # n x [64,128,256]
+        voxel_feats = voxel_dict['voxel_feats'][0] #project 64 512 128
         voxel_feats = voxel_feats.permute(0, 2, 3, 1)
         pts_coors = voxel_dict['coors']
         map_point_feats = voxel_feats[pts_coors[:, 0], pts_coors[:, 1],
@@ -56,7 +56,7 @@ class FRHead(Base3DDecodeHead):
                 map_point_feats = map_point_feats + point_feats_backbone
             else:
                 map_point_feats = map_point_feats + point_feats[-i]
-        seg_logit = self.cls_seg(map_point_feats)
+        seg_logit = self.cls_seg(map_point_feats) #cal logit
         voxel_dict['seg_logit'] = seg_logit
         return voxel_dict
 

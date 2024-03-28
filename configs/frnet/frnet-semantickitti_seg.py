@@ -5,7 +5,7 @@ _base_ = [
 custom_imports = dict(
     imports=['frnet.datasets', 'frnet.datasets.transforms', 'frnet.models'],
     allow_failed_imports=False)
-
+# checkpoint_config=dict(interval=1, save_best='mIoU', by_epoch=True)
 model = dict(
     data_preprocessor=dict(
         H=64, W=512, fov_up=3.0, fov_down=-25.0, ignore_index=19),

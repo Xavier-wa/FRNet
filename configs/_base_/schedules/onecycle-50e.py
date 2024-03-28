@@ -16,7 +16,7 @@ param_scheduler = [
         convert_to_iter_based=True)
 ]
 
-train_cfg = dict(by_epoch=True, max_epochs=50, val_interval=1)
+train_cfg = dict(by_epoch=True, max_epochs=1, val_interval=1)
 val_cfg = dict()
 test_cfg = dict()
 
