@@ -315,11 +315,13 @@ class FRNetBackbone(BaseModule):
         fusion_pixel_feats = torch.cat((pixel_feats, x), dim=1)
         x = self.fusion_stem(fusion_pixel_feats)
 
+
+        # a residual-attentive manner
         outs = [x]  
         out_points = [point_feats]
         for i, layer_name in enumerate(self.res_layers):
             res_layer = getattr(self, layer_name)
-            x = res_layer(x)    #bs,128,64,512
+            x = res_layer(x)    #bs,128,64,512  #在这图像以1，2，2，2的倍率被缩小
 
             # frustum-to-point fusion
             map_point_feats = self.pixel2point(
@@ -344,7 +346,8 @@ class FRNetBackbone(BaseModule):
             outs.append(x)
             out_points.append(point_feats)
 
-        # interpolate
+        
+        # interpolate  将每个stage的图像通过插值恢复到原来的分辨率
         for i in range(len(outs)):
             if outs[i].shape != outs[0].shape:
                 outs[i] = F.interpolate(
@@ -389,7 +392,7 @@ class FRNetBackbone(BaseModule):
                     stride: int = 1) -> Tensor:
         pixel_features = pixel_features.permute(0, 2, 3, 1).contiguous()
         point_feats = pixel_features[coors[:, 0], coors[:, 1] // stride,
-                                     coors[:, 2] // stride]
+                                     coors[:, 2] // stride] #图像缩小，所以点要到缩小后的位置取特征
         return point_feats
 
     def point2frustum(self,
