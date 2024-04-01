@@ -175,16 +175,16 @@ test_pipeline = [
         load_dim=4,
         use_dim=4,
         backend_args=backend_args),
-    dict(
-        type='LoadAnnotations3D',
-        with_bbox_3d=False,
-        with_label_3d=False,
-        with_seg_3d=True,
-        seg_3d_dtype='np.int32',
-        seg_offset=2**16,
-        dataset_type='semantickitti',
-        backend_args=backend_args),
-    dict(type='PointSegClassMapping'),
+    # dict(
+    #     type='LoadAnnotations3D',
+    #     with_bbox_3d=False,
+    #     with_label_3d=False,
+    #     with_seg_3d=True,
+    #     seg_3d_dtype='np.int32',
+    #     seg_offset=2**16,
+    #     dataset_type='semantickitti',
+    #     backend_args=backend_args),
+    # dict(type='PointSegClassMapping'),
     dict(
         type='RangeInterpolation',
         H=64,
@@ -201,16 +201,16 @@ tta_pipeline = [
         load_dim=4,
         use_dim=4,
         backend_args=backend_args),
-    dict(
-        type='LoadAnnotations3D',
-        with_bbox_3d=False,
-        with_label_3d=False,
-        with_seg_3d=True,
-        seg_3d_dtype='np.int32',
-        seg_offset=2**16,
-        dataset_type='semantickitti',
-        backend_args=backend_args),
-    dict(type='PointSegClassMapping'),
+    # dict(
+    #     type='LoadAnnotations3D',
+    #     with_bbox_3d=False,
+    #     with_label_3d=False,
+    #     with_seg_3d=True,
+    #     seg_3d_dtype='np.int32',
+    #     seg_offset=2**16,
+    #     dataset_type='semantickitti',
+    #     backend_args=backend_args),
+    # dict(type='PointSegClassMapping'),
     dict(
         type='RangeInterpolation',
         H=64,
@@ -279,7 +279,7 @@ val_dataloader = dict(    batch_size=1,
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        ann_file='semantickitti_infos_val.pkl',
+        ann_file='semantickitti_infos_test.pkl',
         pipeline=test_pipeline,
         metainfo=metainfo,
         modality=input_modality,
@@ -291,22 +291,17 @@ test_dataloader = val_dataloader
 
 val_evaluator = dict(type='SegMetric')
 
-# test_evaluator = dict(
-#     type='SemantickInferMertric',
-#     submission_prefix= None,
-#     ann_file='semantickitti_infos_test.pkl',
-#     format_only=None,
-#     conf='',
-#     result_start_index=0
-# )
-test_evaluator = val_evaluator
+
+# test_evaluator = val_evaluator
 '''Xavier Use'''
-# test_evaluator = dict(
-#     type='SegMetric',
-#     ann_file=data_root + 'semantickitti_infos_test.pkl',
-#     metric='bbox',
-#     format_only=True,
-#     submission_prefix='data_root/seg-kitti_results')
+test_evaluator = dict(
+    type='SemantickInferMertric',
+    submission_prefix= None,
+    ann_file='semantickitti_infos_test.pkl',
+    format_only=None,
+    conf='',
+    result_start_index=0
+)
 '''Xavier Use'''
 
 
